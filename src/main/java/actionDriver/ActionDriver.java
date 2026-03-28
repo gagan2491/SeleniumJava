@@ -35,6 +35,81 @@ public class ActionDriver {
 		new WebDriverWait(driver, Duration.ofSeconds(30));
 	}
 	
+	//Method to click on an element
+	
+	public void click(By by) {
+		
+		try {
+			waitForElementToBeClickable(by);
+			driver.findElement(by).click();
+		}
+		catch(Exception e) {
+			System.out.println("Unable to click element: " + e.getMessage());
+		}
+	}
+	
+	//Method to enter the text
+	
+	public void enterText(By by, String text) {
+		
+		try {
+			waitForElementToBeVisible(by);
+			driver.findElement(by).clear();
+			driver.findElement(by).sendKeys(text);
+		}
+		catch(Exception e) {
+			System.out.println("Unable to enter text: " + e.getMessage());
+		}
+	}
+	
+	//Method to get the text value
+	
+	public String getText(By by) {
+		
+		try {
+			waitForElementToBeVisible(by);
+			return driver.findElement(by).getText();
+		} catch (Exception e) {
+			System.out.println("Unable to get text: " + e.getMessage());
+			return null;
+		}
+	}
+	
+	// Method to compare 2 text
+	
+	public void compareText(By by, String expectedText) {
+		
+		try {
+			waitForElementToBeVisible(by);
+			String actualText = driver.findElement(by).getText();
+			
+			if(expectedText.equals(actualText)) {
+				System.out.println("Texts are matching");
+			} else
+				System.out.println("Texts are not matching");
+		} catch (Exception e) {
+			System.out.println("Unable to compare the texts " + e.getMessage());
+		}
+	}
+	
+	// Method to check if an element id displayed
+	
+	public boolean isElementDisplayed(By by) {
+		
+		try {
+			waitForElementToBeVisible(by);
+			boolean isDisplayed = driver.findElement(by).isDisplayed();
+			if(isDisplayed) {
+				System.out.println("Element is displayed");
+				return isDisplayed;
+			}else
+				return isDisplayed;
+		} catch (Exception e) {
+			System.out.println("Element is not displayed: " + e.getMessage());
+			return false;
+		}
+	}
+	
 	/*
 	 * Javascript executor methods
 	 */
@@ -61,6 +136,16 @@ public class ActionDriver {
 			driverWait.until(ExpectedConditions.elementToBeClickable(by));
 		} catch (Exception e) {
 			System.out.println("Element is no clickable" + e.getMessage());
+		}
+	}
+	
+	public void waitForElementToBeVisible(By by) {
+		
+		try {
+			driverWait.until(ExpectedConditions.visibilityOfElementLocated(by));
+		}
+		catch(Exception e) {
+			System.out.println("Element is not visible: " + e.getMessage());
 		}
 	}
 	
